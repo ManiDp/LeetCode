@@ -16,7 +16,8 @@ public:
                 }else if(nums[i] > nums[j] && 1+dp[j] == dp[i]){
                     cut[i] +=cut[j];
                 }
-            }k=max(k,dp[i]);
+            }
+            k=max(k,dp[i]);
         }
         
         for(int i=0;i<n;++i){

@@ -11,32 +11,19 @@
  */
 class Solution {
 public:
-    vector<int> rightSideView(TreeNode* root) {
-        queue<TreeNode*>todo;
+    void f(TreeNode* root,vector<int>&v,int level){
+        if(root == NULL) return;
         
+        if(level == v.size()) v.push_back(root->val);
+        
+        f(root->right,v,level+1);
+        
+        f(root->left,v,level+1);
+    }
+    vector<int> rightSideView(TreeNode* root) {
         vector<int>ans;
         
-        if(root == NULL) return ans;
-        
-        todo.push(root);
-        
-        while(!todo.empty()){
-            int k=todo.size();
-            
-            for(int i=0;i<k;++i){
-                
-                TreeNode* temp=todo.front();
-                
-                if(temp->left != NULL) todo.push(temp->left);
-                
-                if(temp->right != NULL) todo.push(temp->right);
-                
-                if(i == k-1) ans.push_back(temp->val);
-                
-                todo.pop();
-                
-            }
-        }
+        f(root,ans,0);
         
         return ans;
     }

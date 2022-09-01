@@ -9,39 +9,24 @@
  */
 class Solution {
 public:
-    bool f(TreeNode* root,TreeNode* p,vector<TreeNode*>&v){
+    TreeNode* f(TreeNode* root,TreeNode* p,TreeNode* q){
         
-        if(root == NULL) return false;
+        if(root == NULL || root == p || root == q) return root;
         
-        v.push_back(root);
+        TreeNode* l = f(root->left,p,q);
         
-        if(root == p ) return true;
+        TreeNode* m = f(root->right,p,q);
         
-        
-        if(f(root->left,p,v) || f(root->right,p,v)) return true;
-        
-        v.pop_back();
-        
-        return false;
+        if(l == NULL) return m;
+        else if(m == NULL) return l;
+        else{
+            return root;
+        }
+        return root;
     }
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {
-        vector<TreeNode*>v1,v2;
         
-        f(root,p,v1);
+        return f(root,p,q);
 
-        f(root,q,v2);
-        
-        TreeNode* temp=NULL;
-        
-        int i=0;
-        
-        int k=min(v1.size(),v2.size());
-        
-        while(i<k){
-            if(v1[i] == v2[i]) temp=v1[i];
-            i++;
-        }
-        
-        return temp;
     }
 };

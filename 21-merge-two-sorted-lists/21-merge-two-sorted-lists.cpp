@@ -35,7 +35,7 @@ public:
             temp->next = list2;
             swap(list1,list2);
         }
-        if(list2) temp->next = list2;
+        // if(list2) temp->next = list2;
         return res;
     }
 };

@@ -11,20 +11,40 @@
  */
 class Solution {
 public:
-    int f(TreeNode * root){
-        if(root == NULL)return 0;
-        
-        int p = 0,q = 0;
-        
-        if(root->left) p= 1+f(root->left);
-        
-        if(root->right) q = 1+f(root->right);
-        
-        return p+q;
+    int lefts(TreeNode * root){
+        int count = 0;
+        while(root){
+            count++;
+            root = root->left;
+        }
+        return count;
+    }
+    
+    int rights(TreeNode * root){
+        int count = 0;
+        while(root){
+            count++;
+            root = root->right;
+        }
+        return count;
     }
     int countNodes(TreeNode* root) {
-        if(root == NULL ) return 0;
+        int l=-1,rl =-2;
         
-        return 1+f(root);
+        if(root == NULL) return 0;
+        
+         l = lefts(root);
+        
+         rl = rights(root);
+        
+        if(l == rl) return pow(2,l)-1;
+        
+        int p = 0;
+        
+        if(root){
+            p = countNodes(root->left)+countNodes(root->right);
+        }
+        
+        return 1+p;
     }
 };

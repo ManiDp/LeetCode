@@ -14,8 +14,9 @@ public:
     TreeNode* searchBST(TreeNode* root, int val) {
         
         while(root != NULL && root->val != val){
-            if(root->val > val) root = root->left;
-            else root = root->right;
+            
+            root = root->val < val ? root->right : root->left;
+            
         }
         
         return root;

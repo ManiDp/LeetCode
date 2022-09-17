@@ -10,62 +10,49 @@
  * };
  */
 class Solution {
+    private :
+        
+    TreeNode* first;
+    TreeNode* last;
+    TreeNode* middle;
+    TreeNode* prev ;
+
 public:
-    void recoverTree(TreeNode* root) {
+    
+    void inorder(TreeNode* root){
+        if(root  == NULL) return;
         
-        vector<int>res;
+        inorder(root->left);
         
-        queue<TreeNode*>q;
-        
-        q.push(root);
-        
-        while(!q.empty()){
+        if(prev->val > root->val){
             
-            int n= q.size();
-            
-            for(int i=0;i<n;++i){
+            if(first == NULL){
                 
-                TreeNode* cur = q.front();
-                
-                res.push_back(cur->val);
-                
-                if(cur->left) q.push(cur->left);
-                
-                if(cur->right) q.push(cur->right);
-                
-                q.pop();
+                first = prev;
+                middle = root;
+            }else{
+                last = root;
             }
         }
         
-        sort(res.begin(),res.end());
+        prev = root;
         
-        stack<TreeNode*>st;
+        inorder(root->right);
         
-        // st.push(root);
+        return;
+    }
+    void recoverTree(TreeNode* root) {
         
-        int n= res.size(),i = 0;
+        first = last = middle = NULL;
         
-        TreeNode* cur = root;
+        prev = new TreeNode(INT_MIN);
+
         
-        while(cur) st.push(cur),cur= cur->left;
+        inorder(root);
         
-        while(!st.empty()){
-            
-            
-           TreeNode* cur = st.top();
-            st.pop();
-            
-            cur->val = res[i++];
-            
-            
-            if(cur->right){
-                
-                st.push(cur->right);
-                
-                TreeNode* ans = cur->right;
-                
-                while(ans->left) ans= ans->left,st.push(ans);
-            } 
-        }
+        if(first && last) swap(first->val,last->val);
+        else swap(first->val,middle->val);
+        
+        return;
     }
 };

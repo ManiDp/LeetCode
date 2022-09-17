@@ -9,57 +9,82 @@
  *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
  * };
  */
-class Solution {
+class BSITiterator {
+    
+    stack<TreeNode*>mystack;
+    
+    bool reverse = true;
 public:
-    bool findTarget(TreeNode* root, int k) {
-        unordered_map<int,int>ump;
+    
+     BSITiterator(TreeNode* root,bool isReverse){
         
-        queue<TreeNode*>q;
+        reverse = isReverse;
         
-        q.push(root);
+        pushAll(root);
         
-        while(!q.empty()){
+        
+    }
+    
+    int next(){
             
-            int n= q.size();
+        TreeNode* cur = mystack.top();
             
-            for(int i=0;i<n;++i){
-                
-                TreeNode* cur = q.front();
-                
-                ump[cur->val] = 1;
-                
-                if(cur->left) q.push(cur->left);
-                
-                if(cur->right) q.push(cur->right);
-                
-                q.pop();
-            }
-        }
+        mystack.pop();
         
-        q.push(root);
-        
-        while(!q.empty()){
-            
-            int n= q.size();
-            
-            for(int i=0;i<n;++i){
-                
-                TreeNode* cur = q.front();
-                
-                ump[cur->val] = 0;
-                
-                if( ump[k-(cur->val)] ) return true;
-                
-                ump[cur->val] = 1;
+        if(reverse) pushAll(cur->right);
+        else pushAll(cur->left);
 
+        return cur->val;
+    }
+    
+    private : 
+    
+    void pushAll(TreeNode* root){
+        
+        if(reverse == true ){
+            
+            while(root){
+                mystack.push(root);
                 
-                if(cur->left) q.push(cur->left);
-                
-                if(cur->right) q.push(cur->right);
-                
-                q.pop();
+                root = root->left;
+            }
+        }else if(reverse == false){
+            
+            while(root){
+                mystack.push(root);
+                root = root->right;
             }
         }
+        return;
+    }
+};
+    class Solution {
+    public:
+    
+        bool findTarget(TreeNode* root, int k) {
+        
+        if(!root) return false;
+            
+        BSITiterator l(root,true);  // left,Root,Right
+        
+        BSITiterator r(root,false); // Right, Root,left
+        
+        int i = l.next() , j = r.next();
+        
+        while(i < j){
+            
+            if(i + j == k) return true;
+            
+            if(i + j > k){
+                
+                j = r.next();
+                
+            }else{
+                
+                i = l.next();
+            }
+        }
+        
         return false;
     }
 };

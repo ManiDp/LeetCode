@@ -1,50 +1,15 @@
 class Solution {
 public:
-    void bfs(int i,int j,vector<vector<int>>&visited,vector<vector<char>>& grid,int n,int m){
+    void dfs(int i,int j,vector<vector<int>>&visited,vector<vector<char>>& grid,int n,int m){
+        
+        if(i<0 || i>=n || j<0 || j>=m || visited[i][j] || grid[i][j] != '1') return;
+        
         visited[i][j] =1;
-        queue<pair<int,int>>q;
         
-        q.push({i,j});
-        
-        while(!q.empty()){
-            
-            int row = q.front().first;
-            int col = q.front().second;
-            
-            q.pop();
-            
-            for(int delrow = 0 ;delrow < 1 ;delrow++){
-                for(int delcol = -1;delcol <=1 ;delcol++){
-                    
-                    int nrow = row+delrow;
-                    int ncol = col+delcol;
-                    
-                    if(nrow>=0 && nrow<n && ncol >= 0 && ncol <m 
-                       && !visited[nrow][ncol] && grid[nrow][ncol] == '1'){
-                        q.push({nrow,ncol});
-                        visited[nrow][ncol]=1;
-                    }
-                }
-            }
-            
-            int nrow = row-1;
-                    int ncol = col;
-                    
-                if(nrow>=0 && nrow<n && ncol >= 0 && ncol <m 
-                       && !visited[nrow][ncol] && grid[nrow][ncol] == '1'){
-                    q.push({nrow,ncol});
-                    visited[nrow][ncol]=1;
-            }
-            
-             nrow = row+1;
-           
-                    
-                if(nrow>=0 && nrow<n && ncol >= 0 && ncol <m 
-                       && !visited[nrow][ncol] && grid[nrow][ncol] == '1'){
-                    q.push({nrow,ncol});
-                    visited[nrow][ncol]=1;
-            }
-        }
+        dfs(i,j+1,visited,grid,n,m);
+        dfs(i,j-1,visited,grid,n,m);
+        dfs(i+1,j,visited,grid,n,m);
+        dfs(i-1,j,visited,grid,n,m);
     }
     int numIslands(vector<vector<char>>& grid) {
         
@@ -57,7 +22,7 @@ public:
                 if(!visited[i][j] && grid[i][j] == '1'){
                     
                     count++;
-                    bfs(i,j,visited,grid,n,m);
+                    dfs(i,j,visited,grid,n,m);
                     
                 }
             }

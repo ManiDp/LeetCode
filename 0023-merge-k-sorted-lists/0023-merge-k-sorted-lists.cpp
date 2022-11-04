@@ -10,44 +10,39 @@
  */
 class Solution {
 public:
+    ListNode* merge2lists(ListNode* l1,ListNode* l2){
+        
+        if(!l1) return l2;
+        if(!l2) return l1;
+        
+        if(l1->val > l2->val) swap(l1,l2);
+        
+        ListNode* prev = NULL,*temp = l1;
+        
+        while(l2 != NULL){
+            
+            while( l1 != NULL && l1->val <= l2->val){
+                
+                prev = l1;
+                l1 = l1->next;
+            }
+            
+            prev->next = l2;
+            swap(l1,l2);
+        }
+        return temp;
+    }
     ListNode* mergeKLists(vector<ListNode*>& lists) {
         
-        int n=lists.size();
+        if(lists.size() == 0) return NULL;
         
-        ListNode* dummy = new ListNode();
-        int i=0;
+        ListNode *head = lists[0];
         
-        for( i=0;i<n;++i){
-            if(lists[i] == NULL) continue;
-            dummy->next = lists[i];
-            break;
+        int n= lists.size();
+        
+        for(int i=1;i<n;++i){
+            head = merge2lists(head,lists[i]);
         }
-        
-        
-        for( i=i+1;i<n;++i){
-            
-            if(lists[i] == NULL ) continue;
-            
-            ListNode *l1= dummy->next,*l2,*prev = NULL,*temp=NULL;
-            
-            l2=lists[i];
-            
-            if(l1->val > l2->val) swap(l1,l2);
-            
-            temp = l1;
-            
-            while(l2 != NULL){
-                
-                while(l1 != NULL && l1->val <= l2->val ){
-                    prev = l1;
-                    l1 = l1->next;
-                }
-                
-                prev->next = l2;
-                swap(l1,l2);
-            }
-            dummy->next = temp;
-        }
-        return dummy->next;
+        return head;
     }
 };

@@ -13,30 +13,15 @@ public:
         
         maxHeap.push(num);
         
-        int n = maxHeap.size();
+        minHeap.push(maxHeap.top());
         
-        int m = minHeap.size();
+        maxHeap.pop();
         
-        if(n - m > 1 ){
+        if(maxHeap.size() < minHeap.size()){
             
-            auto temp = maxHeap.top();
-            
-            maxHeap.pop();
-            
-            minHeap.push(temp);
-        }
-        
-        if(m>0 && maxHeap.top() > minHeap.top()){
-            
-            auto temp = minHeap.top();
-            
-            auto var = maxHeap.top();
-            
-            maxHeap.pop();
-            maxHeap.push(temp);
+            maxHeap.push(minHeap.top());
             
             minHeap.pop();
-            minHeap.push(var);
         }
     }
     

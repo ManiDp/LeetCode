@@ -4,33 +4,27 @@ public:
         
         int n = nums.size();
         
-        vector<int>res(n,-1);
+        stack<int>st;
         
-        for(int i=0;i<n;++i){
+        vector<int>ans(n,-1);
+        
+        for(int i = 2*n-1;i>=0;i--){
             
-            bool a = true;
+            while(!st.empty() && nums[i % n] >= st.top()){
+                st.pop();
+            } 
             
-            for(int j = i+1;j<n;++j){
+            if(i<n){
                 
-                if(nums[i] < nums[j]){
-                    
-                    res[i] = nums[j];
-                    a = false;
-                    break;
-                } 
-            }
-            if(a){
-                for(int k = 0;k<i;++k){
-                    if(nums[k] > nums[i]){
-                        res[i] = nums[k];
-                        break;
-                    }
+                if(!st.empty()){
+                    ans[i % n] = st.top();
                 }
             }
-                
-            }
+            
+            st.push(nums[i % n]);
+            
+        }
         
-        
-        return res;
+        return ans;
     }
 };

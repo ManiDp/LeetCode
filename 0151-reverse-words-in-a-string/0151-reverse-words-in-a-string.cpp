@@ -2,44 +2,23 @@ class Solution {
 public:
     string reverseWords(string s) {
         
-        stack<string>st;
-        
-        string temp ="";
-        
-        s +=" ";
-        
-        int n= s.size();
-        int j=0;
-        for(j=0;j<n;++j){
-            if(s[j] == ' ') continue;
-            break;
-        }
-        
-        for(int i=j;i<n;++i){
-            
-            if( temp.size() != 0 && s[i] == ' '){
-                 st.push(temp);
-                temp = "";
-            }else if(s[i] != ' ') temp +=s[i];
-        }
-        
-        string res="";
-        
-        n=st.size();
-        
-        for(int i=0;i<n-1;++i){
-            string a = st.top();
-            if(a[0] ==' ') {
-                st.pop();
-                continue;
+        reverse(s.begin(), s.end());
+        int l = 0, r = 0, i = 0, n = s.size();
+        while (i < n) {
+            while (i < n && s[i] != ' ')
+                s[r++] = s[i++];
+
+            if (l < r) { // if we can find a non-empty word then
+                reverse(s.begin() + l, s.begin() + r); // reverse current word
+                if (r == n) break;
+                s[r++] = ' '; // set empty space
+                l = r;
             }
-                res +=st.top()+" ";
-                st.pop();
-            
+            ++i; // now i == n or s[i] == ' ', so we skip that character!
         }
+        if (r > 0 && s[r-1] == ' ') --r; // skip last empty character if have
+        s.resize(r);
+        return s;        
         
-        res +=st.top();
-        
-        return res;
     }
 };

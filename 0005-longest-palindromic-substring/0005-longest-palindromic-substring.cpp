@@ -21,7 +21,9 @@ public:
         for(int i=0;i<n;i++){
             for(int j=n-1;j>i ;--j){
                 
-                bool palstr = palindrome(i,j,s);
+                bool palstr = false;
+                
+                if(lps < j-i+1)  palstr = palindrome(i,j,s);
                 
                 if(palstr && (j-i)+1 > lps){
                     i1 = i;
@@ -30,7 +32,7 @@ public:
                 }
             }
         }
-        cout<<i1<<" "<<j1<<endl;
+        
         return s.substr(i1,lps);
     }
 };

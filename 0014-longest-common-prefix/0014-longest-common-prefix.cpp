@@ -5,19 +5,16 @@ public:
     }
     string longestCommonPrefix(vector<string>& strs) {
         
-        sort(strs.begin(),strs.end(),compare);
-        
-        int n=strs[0].size(),m = strs.size();
-        
-        string s="";
-        
-        for(int i=0;i<n;++i){
-            
-            for(int j=1;j<m;++j){
-                if(strs[0][i] != strs[j][i]) return s;
-            }
-            s +=strs[0][i];
+        int n =strs.size();
+        string ans; 
+        sort(strs.begin(), strs.end());
+        string a = strs[0];
+        string b = strs[n-1];
+        for(int i =0; i< a.size(); i++){
+            if(a[i] == b[i]){
+                ans += a[i];
+            }else break;
         }
-        return s;
+        return ans;
     }
 };

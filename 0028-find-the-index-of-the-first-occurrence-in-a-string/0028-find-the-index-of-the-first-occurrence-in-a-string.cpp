@@ -2,22 +2,25 @@ class Solution {
 public:
     int strStr(string haystack, string needle) {
         
-        int n= haystack.size(),m = needle.size();
+        int m=needle.size();
         
-        // for(int i=0;i<n;++i){
-        //     if(haystack[i] == )
-        // }
+        string str = needle+"$"+haystack;
         
-        for(int i=0;i<n;++i){
+        int n = str.size();
+        
+        for(int i=m+1;i<n;++i){
             
-            if(haystack[i] == needle[0]){
-                int j = i,k=i;
-                for(i;i<j+m;i++){
-                    if(haystack[i] != needle[i-j]) break;
-                }
-                if(i == j+m) return j;
+            if(str[i] == str[0]){
                 
-                i = k;
+                int left =0,right = i,count=0;
+                
+                while(str[right] != '$' && str[right] == str[left]){
+                    count++;
+                    right++;
+                    left++;
+                }
+                
+                if(count == m) return i-m-1;
             }
         }
         return -1;

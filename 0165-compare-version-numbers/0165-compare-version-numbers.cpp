@@ -22,17 +22,11 @@ public:
             if(str1.size() != 0) temp1 =  stoi(str1);
             if(str2.size() != 0) temp2 = stoi(str2);
             
-             
-            
-            if(temp1 == temp2){
-                i++;
-                j++;
-                 continue;
-            }
-            
-            
             if(temp1 > temp2) return 1;
             if(temp1 < temp2) return -1;
+            
+            i++;
+            j++;
         }
         return 0;
     }
